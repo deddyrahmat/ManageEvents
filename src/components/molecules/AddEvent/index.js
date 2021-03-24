@@ -1,4 +1,5 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState } from 'react';
+// import { useFormik } from 'formik';
 import { Breadcrumb, Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
 import {
     Redirect,
@@ -6,7 +7,7 @@ import {
 
 // config
 import {API} from '../../../configs';
-import { Loading } from '../../atoms';
+// import { Loading } from '../../atoms';
 
 const AddEvent = () => {
 

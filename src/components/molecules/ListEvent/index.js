@@ -28,9 +28,6 @@ const ListEvent = () => {
     useEffect(() => {
         loadEvents();
     }, [])
-
-    let no = 1;
-
     
     // =============================================================
     // fitur search all Event
@@ -56,6 +53,26 @@ const ListEvent = () => {
     // fitur search all Event
     // =============================================================
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const [eventPerPage, setEventPerPage] = useState(5);
+
+    const indexOfLastEvent = currentPage * eventPerPage;
+    const indexOfFirstEvent = indexOfLastEvent - eventPerPage;
+
+    useEffect(() => {
+        setFilterEvent(events.slice(indexOfFirstEvent, indexOfLastEvent))        
+    }, [indexOfFirstEvent, indexOfLastEvent,events])
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+    const pageNumbers = [];
+
+    for (let i = 1; i <= Math.ceil(events.length / eventPerPage); i++) {
+        pageNumbers.push(i);
+    }
+
+    // console.log("curee",currentEvent)
+
     return isLoading ? (<Loading />) : (
         <Fragment>
             <Container className="mt-3 mb-5">
@@ -74,7 +91,6 @@ const ListEvent = () => {
                         <Table striped bordered hover>
                             <thead>
                                 <tr>
-                                <th>No</th>
                                 <th>Title</th>
                                 <th>Location</th>
                                 <th>Date</th>
@@ -87,7 +103,6 @@ const ListEvent = () => {
                                     filteredEvent.length > 0 ? (
                                         filteredEvent.map(event => (
                                             <tr key={event.id}>
-                                                <td>{no++}</td>
                                                 <td>{event.title}</td>
                                                 <td>{event.location}</td>
                                                 <td><Moment format='DD MMM YYYY'>{event.dateEvent}</Moment></td>
@@ -103,6 +118,19 @@ const ListEvent = () => {
                                 }
                             </tbody>
                         </Table>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <nav>
+                            <ul>
+                                {pageNumbers.map((number) => (
+                                <li key={number} onClick={() => paginate(number)} >
+                                    {number}
+                                </li>
+                                ))}
+                            </ul>
+                            </nav>
                     </Col>
                 </Row>
             </Container>
