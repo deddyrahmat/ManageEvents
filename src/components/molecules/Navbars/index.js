@@ -14,7 +14,7 @@ const Navbars = () => {
         <Fragment>
             <Navbar bg="light" expand="lg">
                 <Container>
-                    <Navbar.Brand as={Link} to={'/'}>FrontEnd</Navbar.Brand>
+                    <Navbar.Brand as={Link} to={'/'}>ManageEvent</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="ml-auto">

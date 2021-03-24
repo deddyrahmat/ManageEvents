@@ -1,4 +1,8 @@
 .nav-active{
-    color: black;
+    color: rgb(119, 119, 119) !important;
     font-weight: bold;
+}
+
+.nav-active:hover{
+    color: black !important;
 }

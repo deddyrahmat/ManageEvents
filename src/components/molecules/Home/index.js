@@ -9,6 +9,7 @@ import './Home.css';
 // config
 import {API, PICTURE} from '../../../configs';
 import { Loading } from '../../atoms';
+import userEvent from '@testing-library/user-event';
 
 const Home = () => {
     const [events, setEvents] = useState([]);
@@ -58,10 +59,14 @@ const Home = () => {
                                             </Card.Text>
                                         </Card.Body>
                                         <Card.Body className="border-top d-flex">
-                                            <div>
-                                                <img src={'/assets/avatar.jpg'} alt="avatar" className="avatar" />
-                                                <span className="name-praticipant">Rio</span>
-                                            </div>
+                                            {
+                                                event.participant.split(',').map((user,index) => (
+                                                    <div key={index} className="mr-1">
+                                                        <img src={'/assets/avatar.jpg'} alt="avatar" className="avatar" />
+                                                        <span className="name-praticipant">{user}</span>
+                                                    </div>
+                                                ))
+                                            }
                                         </Card.Body>
                                         <Card.Footer>
                                             <span className="font-weight-bold">Note :</span>
