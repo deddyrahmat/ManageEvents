@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import { Breadcrumb, Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
 import {
-    useHistory,
+    Redirect,
 } from "react-router-dom";
 
 // config
@@ -9,8 +9,6 @@ import {API} from '../../../configs';
 import { Loading } from '../../atoms';
 
 const AddEvent = () => {
-
-    const history = useHistory();
 
     const [isLoading, setIsLoading] = useState(false);
     const [picture, setPicture] = useState({ preview: "", raw: "" });
@@ -22,6 +20,12 @@ const AddEvent = () => {
         dateEvent : "",
         note : ""
     });
+
+    // modal Event Success
+    const [modalEvent, setModalEvent] = useState(false);    
+    const handleCloseModalEvent = () => setModalEvent(false);
+    const handleShowModalEvent = () => setModalEvent(true);
+    // modal Event Success
 
     // state modal image
     const [imageModal, setImageModal] = useState(false);
@@ -87,7 +91,7 @@ const AddEvent = () => {
             console.log("response event ", response);
             if (response.status == 200) {
                 setIsLoading(false);
-                history.push('/list-event')
+                handleShowModalEvent();
             }
 
         } catch (err) {
@@ -150,6 +154,9 @@ const AddEvent = () => {
                             <Form>
                                 <Form.Group>
                                     <Form.File id="exampleFormControlFile1" onChange={handlePictureEvent} name="picture" label="Upload Picture" />
+                                    <Form.Text className="text-muted">
+                                        Max File Size 1 MB
+                                    </Form.Text>
                                 </Form.Group>
 
                                 {
@@ -172,6 +179,20 @@ const AddEvent = () => {
                     <img src={picture.preview} alt="attach file" className="text-center img-fluid" />
                 </Modal.Body>
             </Modal>
+
+
+            <Modal size="lg" show={modalEvent} onHide={handleCloseModalEvent} className="d-flex justify-content-center align-items-center w-100">
+                <Modal.Body >
+                    <p style={{color:"#469F74", fontSize:"24px", fontWeight:"normal", margin:"auto", textAlign:"center"}}>Event Success Created</p>
+                </Modal.Body>
+                {
+                    modalEvent == false ? (
+                    <Redirect to='/list-event' />
+                    ) : null
+                }
+            </Modal>
+
+            
         </Fragment>
     )
 }

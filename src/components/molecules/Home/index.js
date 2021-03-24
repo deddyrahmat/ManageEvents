@@ -45,7 +45,7 @@ const Home = () => {
                     {
                         events.length > 0 ? (
                             events.map(event => (
-                                <Col md='4'>
+                                <Col md='4' key={event.id} className="mb-3" >
                                     <Card className="border-card">
                                         <Card.Img variant="top" src={PICTURE+event.picture} />
                                         <Card.Body>
