@@ -115,8 +115,13 @@ const AddEvent = () => {
                                 <Form.Label>Location</Form.Label>
                                 <Form.Control type="text" onChange={handleChangeEvent} name="location" placeholder="Enter Location" />
                             </Form.Group>
+                            
+                            <Form.Group controlId="participant">
+                                <Form.Label>Participant</Form.Label>
+                                <Form.Control type="text" onChange={handleChangeEvent} name="participant" placeholder="Enter participant" />
+                            </Form.Group>
 
-                            <Form.Group controlId="exampleForm.ControlSelect1">
+                            {/* <Form.Group controlId="exampleForm.ControlSelect1">
                                 <Form.Label>Participant</Form.Label>
                                 <Form.Control as="select" onChange={handleChangeEvent} name="participant">
                                 <option>Choose Participant</option>
@@ -126,7 +131,11 @@ const AddEvent = () => {
                                 <option value="Dinda">Dinda</option>
                                 <option value="Aska">Aska</option>
                                 </Form.Control>
-                            </Form.Group>
+
+                                <Form.Text className="text-muted">
+                                    We'll never share your email with anyone else.
+                                </Form.Text>
+                            </Form.Group> */}
 
                             <Form.Group controlId="date">
                                 <Form.Label>Date</Form.Label>

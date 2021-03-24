@@ -1,5 +1,5 @@
 import React, { Fragment, useState,useEffect } from 'react';
-import { Breadcrumb, Col, Container, Row, Table } from 'react-bootstrap';
+import { Breadcrumb, Col, Container, Row, Table, Form } from 'react-bootstrap';
 import Moment from 'react-moment';
 
 // config
@@ -31,12 +31,44 @@ const ListEvent = () => {
 
     let no = 1;
 
+    
+    // =============================================================
+    // fitur search all Event
+    // =============================================================
+    const [filteredEvent, setFilterEvent] = useState([]);
+    const [keyword, setKeyword] = useState('');
+
+    const handleSearch = (e) => {
+        setKeyword(e.target.value)
+    }
+
+    useEffect(() => {
+        setFilterEvent(
+        events.filter((event) =>
+            event.title.toLowerCase().includes(keyword.toLowerCase()) 
+            || event.location.toLowerCase().includes(keyword.toLowerCase()) 
+            || event.dateEvent.toLowerCase().includes(keyword.toLowerCase()) 
+            || event.participant.toLowerCase().includes(keyword.toLowerCase()) 
+        )
+        );
+    }, [keyword, events]);
+    // =============================================================
+    // fitur search all Event
+    // =============================================================
+
     return isLoading ? (<Loading />) : (
         <Fragment>
             <Container className="mt-3 mb-5">
                 <Breadcrumb>
                     <Breadcrumb.Item active>Dashboard Event</Breadcrumb.Item>
                 </Breadcrumb>
+                <Row>
+                    <Col md="3">
+                        <Form.Group controlId="participant">
+                            <Form.Control type="text" onChange={handleSearch} name="search" placeholder="Search ..." />
+                        </Form.Group>
+                    </Col>
+                </Row>
                 <Row>
                     <Col md='12'>
                         <Table striped bordered hover>
@@ -52,8 +84,8 @@ const ListEvent = () => {
                             </thead>
                             <tbody>
                                 {
-                                    events.length > 0 ? (
-                                        events.map(event => (
+                                    filteredEvent.length > 0 ? (
+                                        filteredEvent.map(event => (
                                             <tr key={event.id}>
                                                 <td>{no++}</td>
                                                 <td>{event.title}</td>
@@ -65,7 +97,7 @@ const ListEvent = () => {
                                         ))
                                     ) : (
                                         <tr>
-                                            <td colSpan="6" className="text-danger">Data Not Found</td>
+                                            <td colSpan="6" className="text-danger text-center font-weight-bold">Data Not Found</td>
                                         </tr>
                                     )
                                 }

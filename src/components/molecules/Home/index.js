@@ -32,7 +32,6 @@ const Home = () => {
         loadEvents();
     }, []);
 
-    console.log(events);
 
     return isLoading ? (<Loading />) : (
         <Fragment>
