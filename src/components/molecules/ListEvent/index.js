@@ -120,13 +120,15 @@ const ListEvent = () => {
                         </Table>
                     </Col>
                 </Row>
-                <Row>
+                <Row className="float-right">
                     <Col>
                         <nav>
-                            <ul>
+                            <ul className='pagination' style={{cursor : "pointer"}}>
                                 {pageNumbers.map((number) => (
-                                <li key={number} onClick={() => paginate(number)} >
+                                <li key={number} onClick={() => paginate(number)} className='page-item'>
+                                    <span className='page-link'>
                                     {number}
+                                    </span>
                                 </li>
                                 ))}
                             </ul>

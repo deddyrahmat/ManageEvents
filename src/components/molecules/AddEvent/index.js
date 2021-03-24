@@ -1,9 +1,11 @@
 import React, { Fragment, useState } from 'react';
-// import { useFormik } from 'formik';
 import { Breadcrumb, Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
 import {
     Redirect,
 } from "react-router-dom";
+
+import { useFormik } from 'formik';
+import * as Yup from "yup";
 
 // config
 import {API} from '../../../configs';
@@ -58,47 +60,121 @@ const AddEvent = () => {
         note
     } = event;
 
-    const handleOnSubmit = async (e) => {
-        e.preventDefault();
+    // const handleOnSubmit = async (e) => {
+    //     e.preventDefault();
 
-        try {
+    //     try {
 
-            setIsLoading(true);
+    //         setIsLoading(true);
 
-            const body = new FormData();
+    //         const body = new FormData();
 
-            body.append("title", title);
-            body.append("location", location);
-            body.append("participant", participant);
-            body.append("dateEvent", dateEvent);
-            body.append("note", note);
+    //         body.append("title", title);
+    //         body.append("location", location);
+    //         body.append("participant", participant);
+    //         body.append("dateEvent", dateEvent);
+    //         body.append("note", note);
 
-            if (picture.raw) {
-                body.append("picture", picture.raw);
-            }else{
-                return console.log("upload failed");
+    //         if (picture.raw) {
+    //             body.append("picture", picture.raw);
+    //         }else{
+    //             return console.log("upload failed");
+    //         }
+
+    //         console.log("body event", body);
+
+    //         const config = {
+    //             headers: {
+    //                 "content-type": "multipart/form-data",
+    //             },
+    //         };
+
+    //         const response = await API.post('/event', body, config);
+
+    //         console.log("response event ", response);
+    //         if (response.status == 200) {
+    //             setIsLoading(false);
+    //             handleShowModalEvent();
+    //         }
+
+    //     } catch (err) {
+    //         console.log("Your System ", err);
+    //     }
+    // }
+
+    const formik = useFormik({
+        initialValues: {
+        title: "",
+        location: "",
+        participant: "",
+        dateEvent: "",
+        note: "",
+        },
+        
+        validationSchema: Yup.object({
+        title: Yup.string()
+            .min(2, "Mininum 2 characters")
+            // .max(15, "Maximum 15 characters")
+            .required("Required!"),
+        location: Yup.string()
+            .min(2, "Mininum 2 characters")
+            // .max(15, "Maximum 15 characters")
+            .required("Required!"),
+        participant: Yup.string()
+            .min(2, "Mininum 2 characters")
+            // .max(15, "Maximum 15 characters")
+            .required("Required!"),
+        dateEvent: Yup.date()
+            .required("Required!"),
+        note: Yup.string()
+            .min(2, "Mininum 2 characters")
+            .required("Required!"),
+        }),
+        onSubmit: async (values) => {
+
+        console.log("coba title",values.title)
+        console.log("data values", values)
+
+            try {
+
+                setIsLoading(true);
+
+                const body = new FormData();
+
+                body.append("title", values.title);
+                body.append("location", values.location);
+                body.append("participant", values.participant);
+                body.append("dateEvent", values.dateEvent);
+                body.append("note", values.note);
+
+                if (picture.raw) {
+                    body.append("picture", picture.raw);
+                }else{
+                    return console.log("upload failed");
+                }
+
+                console.log("body event", body);
+
+                const config = {
+                    headers: {
+                        "content-type": "multipart/form-data",
+                    },
+                };
+
+                const response = await API.post('/event', body, config);
+
+                console.log("response event ", response);
+                if (response.status == 200) {
+                    setIsLoading(false);
+                    handleShowModalEvent();
+                }
+
+            } catch (err) {
+                console.log("Your System ", err);
             }
 
-            console.log("body event", body);
-
-            const config = {
-                headers: {
-                    "content-type": "multipart/form-data",
-                },
-            };
-
-            const response = await API.post('/event', body, config);
-
-            console.log("response event ", response);
-            if (response.status == 200) {
-                setIsLoading(false);
-                handleShowModalEvent();
-            }
-
-        } catch (err) {
-            console.log("Your System ", err);
         }
-    }
+    });
 
     console.log("event",event);
 
@@ -110,20 +186,31 @@ const AddEvent = () => {
                 </Breadcrumb>
                 <Row>
                     <Col md="12">
-                        <Form onSubmit={handleOnSubmit}>
+                        {/* <Form onSubmit={handleOnSubmit}> */}
+                        <Form onSubmit={formik.handleSubmit}>
                             <Form.Group controlId="title">
                                 <Form.Label>Title</Form.Label>
-                                <Form.Control type="text" onChange={handleChangeEvent} name="title" placeholder="Enter Title" />
+                                <Form.Control type="text" value={formik.values.title} onChange={formik.handleChange} name="title" placeholder="Enter Title" />
+
+                                {formik.errors.title && formik.touched.title && (
+                                    <p className="text-danger">{formik.errors.title}</p>
+                                )}
                             </Form.Group>
 
                             <Form.Group controlId="location">
                                 <Form.Label>Location</Form.Label>
-                                <Form.Control type="text" onChange={handleChangeEvent} name="location" placeholder="Enter Location" />
+                                <Form.Control type="text" value={formik.values.location} onChange={formik.handleChange} name="location" placeholder="Enter Location" />
+                                {formik.errors.location && formik.touched.location && (
+                                    <p className="text-danger">{formik.errors.location}</p>
+                                )}
                             </Form.Group>
                             
                             <Form.Group controlId="participant">
                                 <Form.Label>Participant</Form.Label>
-                                <Form.Control type="text" onChange={handleChangeEvent} name="participant" placeholder="Enter participant" />
+                                <Form.Control type="text" value={formik.values.participant} onChange={formik.handleChange} name="participant" placeholder="Enter participant" />
+                                {formik.errors.participant && formik.touched.participant && (
+                                    <p className="text-danger">{formik.errors.participant}</p>
+                                )}
                             </Form.Group>
 
                             {/* <Form.Group controlId="exampleForm.ControlSelect1">
@@ -144,12 +231,20 @@ const AddEvent = () => {
 
                             <Form.Group controlId="date">
                                 <Form.Label>Date</Form.Label>
-                                <Form.Control type="date" onChange={handleChangeEvent} name="dateEvent" placeholder="Enter Date" />
+                                <Form.Control type="date" value={formik.values.dateEvent} onChange={formik.handleChange} name="dateEvent" placeholder="Enter Date" />
+
+                                {formik.errors.dateEvent && formik.touched.dateEvent && (
+                                    <p className="text-danger">{formik.errors.dateEvent}</p>
+                                )}
                             </Form.Group>
 
                             <Form.Group controlId="exampleForm.ControlTextarea1">
                                 <Form.Label>Note</Form.Label>
-                                <Form.Control as="textarea" onChange={handleChangeEvent} name="note" rows={3} />
+                                <Form.Control as="textarea" value={formik.values.note} onChange={formik.handleChange} name="note" rows={3} />
+
+                                {formik.errors.note && formik.touched.note && (
+                                    <p className="text-danger">{formik.errors.note}</p>
+                                )}
                             </Form.Group>
 
                             <Form>
