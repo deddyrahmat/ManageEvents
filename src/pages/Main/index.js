@@ -15,8 +15,6 @@ const Main = () => {
 
     let { path, url } = useRouteMatch();
 
-    console.log("path main", path);
-
     return (
         <Fragment>
             <Navbars />

@@ -64,7 +64,7 @@ const Home = () => {
                                             </div>
                                         </Card.Body>
                                         <Card.Footer>
-                                            Note :
+                                            <span className="font-weight-bold">Note :</span>
                                             <p>{event.note}</p>
                                         </Card.Footer>
                                     </Card>
