@@ -1,0 +1,19 @@
+.border-card{
+    border-radius: 10px;
+}
+
+.location{
+    width: 20px;
+    height: 20px;
+}
+
+.avatar{
+    width: 30px;
+    height  : 30px;
+    border-radius: 50%;
+}
+
+.name-praticipant{
+    margin-right: 4px;
+    margin-left: 4px;
+}
